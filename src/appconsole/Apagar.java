@@ -1,9 +1,12 @@
 package appconsole;
 
-import modelo.*;
+import java.util.List;
+
 import com.db4o.ObjectContainer;
 import com.db4o.query.Query;
-import java.util.List;
+
+import modelo.Cliente;
+import modelo.Lavagem;
 
 public class Apagar {
     protected ObjectContainer db;
@@ -43,6 +46,6 @@ public class Apagar {
 
     public static void main(String[] args) {
         new Apagar().apagar();
-        Util.desconectarBD();
+        Util.desconectar();
     }
 }

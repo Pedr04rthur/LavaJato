@@ -1,8 +1,10 @@
 package appconsole;
 
-import modelo.*;
 import com.db4o.ObjectContainer;
-import java.util.List;
+
+import modelo.Cliente;
+import modelo.Lavagem;
+import modelo.Servico;
 
 public class Cadastrar {
     protected ObjectContainer db;
@@ -64,6 +66,6 @@ public class Cadastrar {
     
     public static void main(String[] args) {
         new Cadastrar().cadastrar();
-        Util.desconectarBD();
+        Util.desconectar();
     }
 }

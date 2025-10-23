@@ -1,6 +1,10 @@
 package principal;
 
-import appconsole.*;
+import appconsole.Alterar;
+import appconsole.Apagar;
+import appconsole.Cadastrar;
+import appconsole.Consultar;
+import appconsole.Listar;
 
 public class Main {
     public static void main(String[] args) {

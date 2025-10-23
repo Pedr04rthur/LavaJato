@@ -1,9 +1,13 @@
 package appconsole;
 
-import modelo.*;
+import java.util.List;
+
 import com.db4o.ObjectContainer;
 import com.db4o.query.Query;
-import java.util.List;
+
+import modelo.Cliente;
+import modelo.Lavagem;
+import modelo.Servico;
 
 public class Listar {
     protected ObjectContainer db;
@@ -53,6 +57,6 @@ public class Listar {
 
     public static void main(String[] args) {
         new Listar().listar();
-        Util.desconectarBD();
+        Util.desconectar();
     }
 }

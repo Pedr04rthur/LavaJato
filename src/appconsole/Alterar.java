@@ -1,9 +1,13 @@
 package appconsole;
 
-import modelo.*;
+
+import java.util.List;
+
 import com.db4o.ObjectContainer;
 import com.db4o.query.Query;
-import java.util.List;
+
+import modelo.Lavagem;
+import modelo.Servico;
 
 public class Alterar {
     protected ObjectContainer db;
@@ -11,6 +15,7 @@ public class Alterar {
     public Alterar() {
         db = Util.conectarBD();
         System.out.println("Alterando relacionamento...");
+
     }
 
     public void alterar() {
@@ -48,6 +53,5 @@ public class Alterar {
 
     public static void main(String[] args) {
         new Alterar().alterar();
-        Util.desconectarBD();
     }
 }
