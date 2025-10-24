@@ -12,7 +12,7 @@ public class Consultar {
     protected ObjectContainer db;
 
     public Consultar() {
-        db = Util.conectarBD();
+        db = Util.conectarBDSimples();  
         System.out.println("Realizando consultas...\n");
     }
 

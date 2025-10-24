@@ -7,7 +7,7 @@ import com.db4o.query.Query;
 
 import modelo.Cliente;
 import modelo.Lavagem;
-import modelo.Servico;
+import modelo.Service;
 
 public class Listar {
     protected ObjectContainer db;
@@ -39,7 +39,7 @@ public class Listar {
         
         for (Lavagem lavagem : lavagens) {
             System.out.println(lavagem);
-            for (Servico servico : lavagem.getServicos()) {
+            for (Service servico : lavagem.getServicos()) {
                 System.out.println("    * " + servico);
             }
         }
@@ -47,10 +47,10 @@ public class Listar {
         // Listar Serviços
         System.out.println("\n=== SERVIÇOS ===");
         Query queryServicos = db.query();
-        queryServicos.constrain(Servico.class);
-        List<Servico> servicos = queryServicos.execute();
+        queryServicos.constrain(Service.class);
+        List<Service> servicos = queryServicos.execute();
         
-        for (Servico servico : servicos) {
+        for (Service servico : servicos) {
             System.out.println(servico);
         }
     }

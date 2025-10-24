@@ -1,10 +1,13 @@
 package appconsole;
 
+import java.util.List;
+
 import com.db4o.ObjectContainer;
+import com.db4o.query.Query;
 
 import modelo.Cliente;
 import modelo.Lavagem;
-import modelo.Servico;
+import modelo.Service;
 
 public class Cadastrar {
     protected ObjectContainer db;
@@ -16,10 +19,17 @@ public class Cadastrar {
     
     public void cadastrar() {
         // Criar serviços
-        Servico lavagemSimples = new Servico("Lavagem Simples", 30.0);
-        Servico lavagemCompleta = new Servico("Lavagem Completa", 60.0);
-        Servico polimento = new Servico("Polimento", 80.0);
-        Servico cera = new Servico("Aplicação de Cera", 40.0);
+    	 Query verifica = db.query();
+    	    verifica.constrain(Cliente.class);
+    	    List<Cliente> existentes = verifica.execute();
+    	    if (!existentes.isEmpty()) {
+    	        System.out.println("⚠️  Banco já contém dados! Pulando cadastro...");
+    	        return;
+    	    }
+        Service lavagemSimples = new Service("Lavagem Simples", 30.0);
+        Service lavagemCompleta = new Service("Lavagem Completa", 60.0);
+        Service polimento = new Service("Polimento", 80.0);
+        Service cera = new Service("Aplicação de Cera", 40.0);
         
         db.store(lavagemSimples);
         db.store(lavagemCompleta);

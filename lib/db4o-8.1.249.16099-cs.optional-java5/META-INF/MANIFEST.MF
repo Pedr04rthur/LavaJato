@@ -1,0 +1,29 @@
+Manifest-Version: 1.0
+Export-Package: com.db4o.cs.monitoring;uses:="javax.management,com.db4
+ o.monitoring,com.db4o.events,com.db4o.cs.internal,com.db4o,com.db4o.e
+ xt,com.db4o.cs.config,com.db4o.foundation,com.db4o.cs.foundation,com.
+ db4o.monitoring.internal,com.db4o.config,com.db4o.internal,com.db4o.c
+ s.internal.config";version="8.1.249.16099",com.db4o.cs.ssl;uses:="com
+ .db4o.cs.foundation,javax.net.ssl,javax.net,com.db4o.config,com.db4o.
+ internal,com.db4o.cs.internal.config,com.db4o.cs.config";version="8.1
+ .249.16099"
+Tool: Bnd-0.0.337
+DSTAMP: 20120426
+TODAY: April 26 2012
+Bundle-Name: db4o cs optional for Java 5
+Created-By: 1.6.0_20 (Sun Microsystems Inc.)
+TSTAMP: 0022
+Bundle-Vendor: Versant
+DynamicImport-Package: *
+Bundle-Version: 8.1.249.16099
+Bnd-LastModified: 1335412789152
+Bundle-ManifestVersion: 2
+Import-Package: com.db4o,com.db4o.config,com.db4o.cs.config,com.db4o.c
+ s.foundation,com.db4o.cs.internal,com.db4o.cs.internal.config,com.db4
+ o.cs.monitoring;version="8.1",com.db4o.cs.ssl;version="8.1",com.db4o.
+ events,com.db4o.ext,com.db4o.foundation,com.db4o.internal,com.db4o.mo
+ nitoring,com.db4o.monitoring.internal,javax.management,javax.net,java
+ x.net.ssl
+Bundle-SymbolicName: com.db4o.cs.optional.java5
+CURRENT_YEAR: 2012
+

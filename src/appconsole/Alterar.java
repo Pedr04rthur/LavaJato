@@ -7,7 +7,7 @@ import com.db4o.ObjectContainer;
 import com.db4o.query.Query;
 
 import modelo.Lavagem;
-import modelo.Servico;
+import modelo.Service;
 
 public class Alterar {
     protected ObjectContainer db;
@@ -30,12 +30,12 @@ public class Alterar {
             
             // Encontrar o serviço "Polimento" para remover
             Query queryServico = db.query();
-            queryServico.constrain(Servico.class);
+            queryServico.constrain(Service.class);
             queryServico.descend("nome").constrain("Polimento");
-            List<Servico> servicos = queryServico.execute();
+            List<Service> servicos = queryServico.execute();
             
             if (!servicos.isEmpty()) {
-                Servico polimento = servicos.get(0);
+                Service polimento = servicos.get(0);
                 
                 // Remover o relacionamento
                 System.out.println("Removendo serviço: " + polimento.getNome() + " da lavagem ID: " + lavagem.getId());

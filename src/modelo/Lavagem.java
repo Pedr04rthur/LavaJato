@@ -4,22 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Lavagem {
-    private static int proxId = 1;
-    private final int id;
+    private int id;
     private String data;
     private Cliente cliente;
-    private List<Servico> servicos;
+    private List<Service> servicos;  // 
     
     public Lavagem(String data, Cliente cliente) {
-        this.id = proxId++;
+        this.id = 0;
         this.data = data;
         this.cliente = cliente;
-        this.servicos = new ArrayList<>();
-        cliente.addLavagem(this);
+        this.servicos = new ArrayList<>(); 
+        if (cliente != null) {
+            cliente.addLavagem(this);
+        }
     }
     
     // Getters e Setters
     public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
     
     public String getData() { return data; }
     public void setData(String data) { this.data = data; }
@@ -35,20 +37,19 @@ public class Lavagem {
         }
     }
     
-    public List<Servico> getServicos() { return servicos; }
-    public void addServico(Servico servico) { this.servicos.add(servico); }
-    public void removeServico(Servico servico) { this.servicos.remove(servico); }
+    public List<Service> getServicos() { return servicos; }
+    public void addServico(Service servico) { this.servicos.add(servico); }
+    public void removeServico(Service servico) { this.servicos.remove(servico); }
     
     public double getValorTotal() {
         double total = 0.0;
-        for (Servico servico : servicos) {
+        for (Service servico : servicos) {
             total += servico.getPreco();
         }
         return total;
     }
     
     public String getMes() {
-        // formato DD/MM/AAAA - retorna "03" para março
         return data.split("/")[1];
     }
     

@@ -12,40 +12,45 @@ public class Apagar {
     protected ObjectContainer db;
 
     public Apagar() {
-        db = Util.conectarBD();
-        System.out.println("Apagando objeto com relacionamentos...");
+        // Conectar de forma simples, sem ativar ControleID
+        try {
+            db = Util.conectarBDSimples();
+            System.out.println("Apagando cliente Pedro Costa...");
+        } catch (Exception e) {
+            System.out.println("Erro ao conectar: " + e.getMessage());
+        }
     }
 
     public void apagar() {
-        // Encontrar o cliente "Pedro Costa" para apagar
-        Query query = db.query();
-        query.constrain(Cliente.class);
-        query.descend("nome").constrain("Pedro Costa");
-        List<Cliente> clientes = query.execute();
-        
-        if (!clientes.isEmpty()) {
-            Cliente cliente = clientes.get(0);
+        try {
+            // Buscar o cliente "Pedro Costa"
+            Query query = db.query();
+            query.constrain(Cliente.class);
+            query.descend("nome").constrain("Pedro Costa");
+            List<Cliente> clientes = query.execute();
             
-            System.out.println("Apagando cliente: " + cliente.getNome());
-            System.out.println("Este cliente tem " + cliente.getLavagens().size() + " lavagens associadas.");
-            
-            // Primeiro, precisamos remover as lavagens associadas para evitar objetos órfãos
-            for (Lavagem lavagem : cliente.getLavagens()) {
-                System.out.println("Apagando lavagem ID: " + lavagem.getId() + " associada ao cliente");
-                db.delete(lavagem);
+            if (!clientes.isEmpty()) {
+                Cliente cliente = clientes.get(0);
+                System.out.println("Encontrado cliente: " + cliente.getNome() + " (ID: " + cliente.getId() + ")");
+                System.out.println("Lavagens associadas: " + cliente.getLavagens().size());
+                
+                // Método SIMPLES: Apagar apenas o cliente (deixe o cascade cuidar do resto)
+                System.out.println("Apagando cliente...");
+                db.delete(cliente);
+                db.commit();
+                
+                System.out.println("Cliente apagado com sucesso!");
+            } else {
+                System.out.println("Cliente 'Pedro Costa' não encontrado!");
             }
             
-            // Agora podemos apagar o cliente
-            db.delete(cliente);
-            db.commit();
-            System.out.println("Cliente e suas lavagens apagados com sucesso!");
-        } else {
-            System.out.println("Cliente 'Pedro Costa' não encontrado!");
+        } catch (Exception e) {
+            System.out.println("Erro durante exclusão: " + e.getMessage());
         }
     }
 
     public static void main(String[] args) {
         new Apagar().apagar();
-        Util.desconectar();
+        // Não chama Util.desconectar() para evitar conflito
     }
 }
