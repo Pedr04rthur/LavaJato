@@ -12,12 +12,14 @@ public class Apagar {
     protected ObjectContainer db;
 
     public Apagar() {
-        // Conectar de forma simples, sem ativar ControleID
+    	
         try {
             db = Util.conectarBDSimples();
-            System.out.println("Apagando cliente Pedro Costa...");
+            System.out.println("Iniciando exclusão de cliente...");
         } catch (Exception e) {
             System.out.println("Erro ao conectar: " + e.getMessage());
+            // Se a conexão falhar, o programa deve encerrar
+            System.exit(1); 
         }
     }
 
@@ -26,31 +28,42 @@ public class Apagar {
             // Buscar o cliente "Pedro Costa"
             Query query = db.query();
             query.constrain(Cliente.class);
-            query.descend("nome").constrain("Pedro Costa");
+            // Busca pelo campo 'nome' com valor "Pedro Costa"
+            query.descend("nome").constrain("Pedro Costa"); 
             List<Cliente> clientes = query.execute();
             
             if (!clientes.isEmpty()) {
                 Cliente cliente = clientes.get(0);
+                
+                System.out.println("----------------------------------------");
+                // Nota: O método getId() e getLavagens() devem existir na classe Cliente.
                 System.out.println("Encontrado cliente: " + cliente.getNome() + " (ID: " + cliente.getId() + ")");
                 System.out.println("Lavagens associadas: " + cliente.getLavagens().size());
                 
-                // Método SIMPLES: Apagar apenas o cliente (deixe o cascade cuidar do resto)
+                // Método SIMPLES: Apagar apenas o cliente
+                // ATENÇÃO: Se o cascadeOnDelete não estiver ativo, isso pode deixar órfãs as lavagens.
                 System.out.println("Apagando cliente...");
+                
                 db.delete(cliente);
                 db.commit();
                 
-                System.out.println("Cliente apagado com sucesso!");
-            } else {
-                System.out.println("Cliente 'Pedro Costa' não encontrado!");
+                System.out.println("Cliente '" + cliente.getNome() + "' apagado com sucesso!");
+                System.out.println("----------------------------------------");
+                
+         
             }
             
         } catch (Exception e) {
             System.out.println("Erro durante exclusão: " + e.getMessage());
+            e.printStackTrace(); // Imprime o rastreamento do erro para debug
+        } finally {
+            // Boa prática: garantir que a conexão seja fechada.
+            Util.desconectar();
         }
     }
 
+    // Método principal para execução individual
     public static void main(String[] args) {
         new Apagar().apagar();
-        // Não chama Util.desconectar() para evitar conflito
     }
 }

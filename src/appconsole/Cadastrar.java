@@ -1,81 +1,102 @@
 package appconsole;
 
 import java.util.List;
+import java.util.Scanner;
 
 import com.db4o.ObjectContainer;
 import com.db4o.query.Query;
 
 import modelo.Cliente;
-import modelo.Lavagem;
-import modelo.Service;
 
 public class Cadastrar {
     protected ObjectContainer db;
-    
+    private Scanner scanner; 
+
     public Cadastrar() {
-        db = Util.conectarBD();
-        System.out.println("Cadastrando dados...");
+        db = Util.conectarBD(); // Conexão que ativa o ControleID
+        scanner = new Scanner(System.in);
+        System.out.println("Iniciando cadastro...");
     }
-    
-    public void cadastrar() {
-        // Criar serviços
-    	 Query verifica = db.query();
-    	    verifica.constrain(Cliente.class);
-    	    List<Cliente> existentes = verifica.execute();
-    	    if (!existentes.isEmpty()) {
-    	        System.out.println("⚠️  Banco já contém dados! Pulando cadastro...");
-    	        return;
-    	    }
-        Service lavagemSimples = new Service("Lavagem Simples", 30.0);
-        Service lavagemCompleta = new Service("Lavagem Completa", 60.0);
-        Service polimento = new Service("Polimento", 80.0);
-        Service cera = new Service("Aplicação de Cera", 40.0);
-        
-        db.store(lavagemSimples);
-        db.store(lavagemCompleta);
-        db.store(polimento);
-        db.store(cera);
 
-        // Criar clientes
-        Cliente cliente1 = new Cliente("123.456.789-00", "João Silva", -23.5505, -46.6333);
-        Cliente cliente2 = new Cliente("987.654.321-00", "Maria Santos", -23.5489, -46.6388);
-        Cliente cliente3 = new Cliente("111.222.333-44", "Pedro Costa", -23.5510, -46.6350);
-        
-        db.store(cliente1);
-        db.store(cliente2);
-        db.store(cliente3);
+    /**
+     * Lógica principal para solicitar e armazenar um novo cliente.
+     */
+    public void cadastrarCliente() {
+        try {
+            System.out.println("\n--- CADASTRO DE NOVO CLIENTE ---");
+            
+            // 1. INPUT e Validação de CPF/CNPJ
+            System.out.print("Digite o CPF do cliente: ");
+            String cpf = scanner.nextLine().trim();
 
-        // Criar lavagens
-        Lavagem lavagem1 = new Lavagem("15/03/2024", cliente1);
-        lavagem1.addServico(lavagemSimples);
-        lavagem1.addServico(polimento);
-        
-        Lavagem lavagem2 = new Lavagem("20/03/2024", cliente2);
-        lavagem2.addServico(lavagemCompleta);
-        
-        Lavagem lavagem3 = new Lavagem("25/03/2024", cliente1);
-        lavagem3.addServico(lavagemSimples);
-        lavagem3.addServico(cera);
-        
-        Lavagem lavagem4 = new Lavagem("05/04/2024", cliente3);
-        lavagem4.addServico(lavagemCompleta);
-        lavagem4.addServico(polimento);
-        lavagem4.addServico(cera);
-        
-        db.store(lavagem1);
-        db.store(lavagem2);
-        db.store(lavagem3);
-        db.store(lavagem4);
+            if (cpf.isEmpty()) {
+                System.out.println("Atençao! CPF não pode ser vazio.");
+                return;
+            }
 
-        db.commit();
-        System.out.println("Cadastro realizado com sucesso!");
-        System.out.println("- 4 Serviços criados");
-        System.out.println("- 3 Clientes criados"); 
-        System.out.println("- 4 Lavagens criadas");
+            // Verifica se o cliente já existe (Boas Práticas!)
+            Query verificaCpf = db.query();
+            verificaCpf.constrain(Cliente.class);
+            verificaCpf.descend("cpf").constrain(cpf);
+            if (!verificaCpf.execute().isEmpty()) {
+                System.out.println("Cliente com este CPF já existe! Tente outro.");
+                return;
+            }
+
+            // 2. INPUT do Nome
+            System.out.print("Digite o nome completo do cliente: ");
+            String nome = scanner.nextLine();
+            
+            double latitude, longitude;
+            try {
+                System.out.print("Digite a Latitude: ");
+                latitude = Double.parseDouble(scanner.nextLine());
+
+                System.out.print("Digite a Longitude: ");
+                longitude = Double.parseDouble(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                 System.out.println("ERRO! Latitude ou Longitude devem ser números válidos.");
+                 return;
+            }
+            
+            // 4. CRIAÇÃO E ARMAZENAMENTO
+            Cliente novoCliente = new Cliente(cpf, nome, latitude, longitude);
+            db.store(novoCliente);
+            db.commit(); // Persiste a alteração imediatamente
+
+            System.out.println("----------------------------------------");
+            System.out.println("✅ Cliente " + nome + " cadastrado com sucesso!");
+            System.out.println("----------------------------------------");
+            
+        } catch (Exception e) {
+            System.out.println("Erro durante o cadastro: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
-    
+
     public static void main(String[] args) {
-        new Cadastrar().cadastrar();
-        Util.desconectar();
+        Cadastrar c = null;
+        try {
+            c = new Cadastrar();
+            String opcao;
+            
+            do {
+                c.cadastrarCliente(); // Tenta cadastrar um cliente
+                
+                System.out.print("Deseja cadastrar outro cliente? (S/N): ");
+                opcao = c.scanner.nextLine().toUpperCase();
+                
+            } while (opcao.equals("S"));
+            
+            System.out.println("\nCadastro finalizado.");
+
+        } catch (Exception e) {
+            System.out.println("Erro: " + e.getMessage());
+        } finally {
+            if (c != null) {
+                c.scanner.close();
+                Util.desconectar();
+            }
+        }
     }
 }

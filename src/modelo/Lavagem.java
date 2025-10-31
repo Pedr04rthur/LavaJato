@@ -7,7 +7,7 @@ public class Lavagem {
     private int id;
     private String data;
     private Cliente cliente;
-    private List<Service> servicos;  // 
+    private List<Service> servicos;  
     
     public Lavagem(String data, Cliente cliente) {
         this.id = 0;
@@ -19,7 +19,7 @@ public class Lavagem {
         }
     }
     
-    // Getters e Setters
+    
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
     
@@ -38,8 +38,17 @@ public class Lavagem {
     }
     
     public List<Service> getServicos() { return servicos; }
+    
     public void addServico(Service servico) { this.servicos.add(servico); }
-    public void removeServico(Service servico) { this.servicos.remove(servico); }
+    
+    public void removeServico(Service servico) { 
+    	
+    	if (this.servicos != null) {
+    		this.servicos.remove(servico);
+    		
+    	   }
+    	}
+    
     
     public double getValorTotal() {
         double total = 0.0;
@@ -52,6 +61,7 @@ public class Lavagem {
     public String getMes() {
         return data.split("/")[1];
     }
+    
     
     @Override
     public String toString() {

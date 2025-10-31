@@ -20,7 +20,7 @@ public class Cliente {
         this.lavagens = new ArrayList<>();
     }
     
-    // Getters e Setters
+   
     public int getId() { 
         return id; 
     }
