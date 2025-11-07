@@ -7,67 +7,36 @@ public class Lavagem {
     private int id;
     private String data;
     private Cliente cliente;
-    private List<Service> servicos;  
+    private List<Servico> servicos;
     
     public Lavagem(String data, Cliente cliente) {
-        this.id = 0;
         this.data = data;
         this.cliente = cliente;
-        this.servicos = new ArrayList<>(); 
-        if (cliente != null) {
-            cliente.addLavagem(this);
-        }
+        this.servicos = new ArrayList<>();
+        cliente.adicionarLavagem(this); 
+    }
+
+    public void adicionarServico(Servico servico) { 
+        this.servicos.add(servico); 
     }
     
-    
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
-    
-    public String getData() { return data; }
-    public void setData(String data) { this.data = data; }
-    
-    public Cliente getCliente() { return cliente; }
-    public void setCliente(Cliente cliente) { 
-        if (this.cliente != null) {
-            this.cliente.removeLavagem(this);
-        }
-        this.cliente = cliente;
-        if (cliente != null) {
-            cliente.addLavagem(this);
-        }
+    public void removerServico(Servico servico) { 
+        this.servicos.remove(servico); 
     }
-    
-    public List<Service> getServicos() { return servicos; }
-    
-    public void addServico(Service servico) { this.servicos.add(servico); }
-    
-    public void removeServico(Service servico) { 
-    	
-    	if (this.servicos != null) {
-    		this.servicos.remove(servico);
-    		
-    	   }
-    	}
-    
     
     public double getValorTotal() {
-        double total = 0.0;
-        for (Service servico : servicos) {
-            total += servico.getPreco();
-        }
-        return total;
+        return servicos.stream().mapToDouble(Servico::getPreco).sum();
     }
-    
-    public String getMes() {
-        return data.split("/")[1];
-    }
-    
+
+    // Getters
+    public int getId() { return id; }
+    public String getData() { return data; }
+    public Cliente getCliente() { return cliente; }
+    public List<Servico> getServicos() { return servicos; }
     
     @Override
     public String toString() {
-        return "Lavagem[ID=" + id + ", Data=" + data + 
-               ", Cliente=" + (cliente != null ? cliente.getNome() : "Nenhum") + 
-               ", Serviços=" + servicos.size() + 
-               ", Valor Total=R$" + getValorTotal() + "]";
+        return "Lavagem " + id + " - " + data + " - Cliente: " + cliente.getNome() + 
+               " - Serviços: " + servicos.size() + " - Total: R$" + getValorTotal();
     }
 }

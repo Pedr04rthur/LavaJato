@@ -7,78 +7,33 @@ public class Cliente {
     private int id;
     private String cpf;
     private String nome;
-    private double latitude;
-    private double longitude; 
+    private Localizacao localizacao;
     private List<Lavagem> lavagens;
     
-    public Cliente(String cpf, String nome, double latitude, double longitude) {
-        this.id = 0;
+    public Cliente(String cpf, String nome, Localizacao localizacao) {
         this.cpf = cpf;
         this.nome = nome;
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.localizacao = localizacao;
         this.lavagens = new ArrayList<>();
     }
-    
-   
-    public int getId() { 
-        return id; 
+
+    public void adicionarLavagem(Lavagem lavagem) { 
+        this.lavagens.add(lavagem); 
     }
     
-    public void setId(int id) { 
-        this.id = id; 
-    }
-    
-    public String getCpf() { 
-        return cpf; 
-    }
-    
-    public void setCpf(String cpf) { 
-        this.cpf = cpf; 
-    }
-    
-    public String getNome() { 
-        return nome; 
-    }
-    
-    public void setNome(String nome) { 
-        this.nome = nome; 
-    }
-    
-    public double getLatitude() { 
-        return latitude; 
-    }
-    
-    public double getLongitude() { 
-        return longitude; 
-    }
-    
-    public void setLocalizacao(double latitude, double longitude) {
-        this.latitude = latitude;
-        this.longitude = longitude;
-    }
-    
-    public List<Lavagem> getLavagens() { 
-        return lavagens; 
-    }
-    
-    // Métodos para gerenciar lavagens
-    public void addLavagem(Lavagem lavagem) { 
-        if (!this.lavagens.contains(lavagem)) {
-            this.lavagens.add(lavagem); 
-        }
-    }
-    
-    public void removeLavagem(Lavagem lavagem) { 
+    public void removerLavagem(Lavagem lavagem) { 
         this.lavagens.remove(lavagem); 
     }
+
+    
+    public int getId() { return id; }
+    public String getCpf() { return cpf; }
+    public String getNome() { return nome; }
+    public Localizacao getLocalizacao() { return localizacao; }
+    public List<Lavagem> getLavagens() { return lavagens; }
     
     @Override
     public String toString() {
-        return "Cliente[ID=" + id + 
-               ", CPF=" + cpf + 
-               ", Nome=" + nome + 
-               ", Localização=(" + latitude + ", " + longitude + ")" + 
-               ", Lavagens=" + lavagens.size() + "]";
+        return nome + " (" + cpf + ") - " + localizacao + " - Lavagens: " + lavagens.size();
     }
 }
