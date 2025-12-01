@@ -10,14 +10,15 @@ public class Cliente {
     private Localizacao localizacao;
     private List<Lavagem> lavagens;
     
-    public Cliente(String cpf, String nome, Localizacao localizacao) {
+    public Cliente(String cpf, String nome) {
         this.cpf = cpf;
         this.nome = nome;
         this.localizacao = localizacao;
         this.lavagens = new ArrayList<>();
     }
 
-    public void adicionarLavagem(Lavagem lavagem) { 
+
+	public void adicionarLavagem(Lavagem lavagem) { 
         this.lavagens.add(lavagem); 
     }
     

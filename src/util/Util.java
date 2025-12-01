@@ -17,9 +17,8 @@ public final class Util {
         if (manager != null) return manager;
         
         EmbeddedConfiguration config = Db4oEmbedded.newConfiguration();
-        config.common().messageLevel(0); // Desliga mensagens
+        config.common().messageLevel(0); 
         
-        // Configurações de cascade (SIMPLES)
         config.common().objectClass(Cliente.class).cascadeOnUpdate(true);
         config.common().objectClass(Lavagem.class).cascadeOnUpdate(true);
         config.common().objectClass(Servico.class).cascadeOnUpdate(true);

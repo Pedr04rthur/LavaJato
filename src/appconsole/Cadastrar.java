@@ -5,7 +5,6 @@ import com.db4o.query.Query;
 
 import modelo.Cliente;
 import modelo.Lavagem;
-import modelo.Localizacao;
 import modelo.Servico;
 import util.Util;
 
@@ -36,9 +35,9 @@ public class Cadastrar {
         manager.store(cera);
 
         System.out.println("Cadastrando clientes...");
-        Cliente c1 = new Cliente("12345678900", "João Silva", new Localizacao(-23.5505, -46.6333));
-        Cliente c2 = new Cliente("98765432100", "Maria Santos", new Localizacao(-23.5489, -46.6388));
-        Cliente c3 = new Cliente("11122233344", "Pedro Costa", new Localizacao(-23.5510, -46.6350));
+        Cliente c1 = new Cliente("12345678900", "João Silva");
+        Cliente c2 = new Cliente("98765432100", "Maria Santos");
+        Cliente c3 = new Cliente("11122233344", "Pedro Costa");
         manager.store(c1);
         manager.store(c2);
         manager.store(c3);

@@ -28,7 +28,7 @@ public class Lavagem {
         return servicos.stream().mapToDouble(Servico::getPreco).sum();
     }
 
-    // Getters
+    
     public int getId() { return id; }
     public String getData() { return data; }
     public Cliente getCliente() { return cliente; }
