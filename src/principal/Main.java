@@ -1,39 +1,26 @@
 package principal;
 
-import appconsole.Alterar;
-import appconsole.Apagar;
-import appconsole.Cadastrar;
-import appconsole.Consultar;
-import appconsole.Listar;
+import appswing.TelaPrincipal;
 
 public class Main {
     public static void main(String[] args) {
+        // Para iniciar o sistema com interface Swing
+        javax.swing.SwingUtilities.invokeLater(() -> {
+            new TelaPrincipal();
+        });
+        
+        /*
+        // Se quiser manter o console também:
         System.out.println("=== SISTEMA LAVA JATO ===\n");
         
         try {
+            System.out.println("Iniciando sistema...");
             
-            System.out.println("1. CADASTRANDO DADOS...");
-            Cadastrar.main(new String[]{});
-            
-            System.out.println("\n2. LISTANDO DADOS...");
-            Listar.main(new String[]{});
-            
-            System.out.println("\n3. CONSULTAS ESPECÍFICAS...");
-            Consultar.main(new String[]{});
-            
-            System.out.println("\n4. ALTERANDO RELACIONAMENTO...");
-            Alterar.main(new String[]{});
-            
-            System.out.println("\n5. APAGANDO OBJETO...");
-            Apagar.main(new String[]{});
-            
-            System.out.println("\n6. LISTAGEM FINAL...");
-            Listar.main(new String[]{});
+            // Você pode manter as chamadas antigas ou migrar tudo para Swing
             
         } catch (Exception e) {
             System.out.println("Erro: " + e.getMessage());
         }
-        
-        System.out.println("\n=== FIM DO SISTEMA ===");
+        */
     }
 }
